@@ -29,12 +29,14 @@ func Dial(address string, timeout time.Duration) (*McQuery, error) {
 		return nil, err
 	}
 
-	challenge, err := getChallenge(conn)
+	timeoutConn := TimeoutConn{conn, timeout}
+
+	challenge, err := getChallenge(timeoutConn)
 	if err != nil {
 		return nil, err
 	}
 
-	return &McQuery{conn, challenge}, nil
+	return &McQuery{timeoutConn, challenge}, nil
 }
 
 func getChallenge(conn net.Conn) ([]byte, error) {
