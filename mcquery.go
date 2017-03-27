@@ -74,6 +74,10 @@ func getChallenge(conn net.Conn) ([]byte, error) {
 	return out, nil
 }
 
+func (mcq *McQuery) Close() error {
+	return mcq.conn.Close()
+}
+
 // GetStatus returns the Minecraft server status from the server. It must be
 // called within 30 seconds of calling Dial. Otherwise, Dial has to be called again.
 func (mcq *McQuery) GetStatus() (status map[string]string, players []string, err error) {
